@@ -10,18 +10,13 @@ This repository contains the source code for a simple reporting issues web appli
 Author: Marta Costa
 Version: 1.0
 
-#### Requirements ####
-- A Java application server (using Tomcat v8.5 Server)
-- DataBase : MySQL Server v6.3
-- Build Tool : Apache-Maven v3.5.0 (in eclipse --> Import -> existing Maven Projects)
-- Use JSF primefaces
-
 #### Project Environment ####
 - JSF 2.2.5
-- Maven 3
+- Maven 3 (build tool/in eclipse --> Import -> existing Maven Projects)
 - Eclipse Java EE IDE for Web Developers - Version: Neon.2 Release (4.6.2)
 - JDK 1.8
 - Tomcat 8.5
+- DataBase : MySQL Server v6.3
 
 #### Features ####
 
