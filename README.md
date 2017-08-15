@@ -1,112 +1,66 @@
-<<<<<<< HEAD
-# README #
+# Reporting Issues Project 
+FRM Mini-project - MAS-RAD
+A Web application allowing to report issues
 
-This README would normally document whatever steps are necessary to get your application up and running.
+<a name="top"></a>
 
-### Project Planning ###
-* Until the 31th of july - planning and mockups / database and possible user types
-* Until the 1st of august - database and login/logout
-* Until the 4th of august - home page layout / html /structure of the homepage
-* Until the 5th of august - reporting/create an issue
-* Until the 8th of august - assign an issue to an user or more
-* Until the 8th of august - delete and edit an issue
-* Until the 8th of august - assign send email to the assign user
-* Until the 10th of august - users can be able to comment on issues
-* Until the 10th of august - change issue status (define who can do it)
-* Until the 11th of august - search an issue from existing ones by word
-* Until the 12th of august - design features
-* Until the 13th of august - Chat (optional)
-* Until the 15th of august - Specifications and last details
+This repository contains the source code for the Reporting Issues Application for the project of FRM course (MAS-RAD). 
+Reporting Issues is an application inviting users to report issues, assign them to other users with specific data so that 
+they can be solved.
 
-### Main Features ###
-* Login/logout - account management 
-* Create an issue (title, description, priority, attachments if possible)
-* Delete an issue
-* Edit an issue
-* Assign issue to other user(s)
-* Comment an issue
-* Change issue status
-* Chat (optional)
-* Search issue by key word 
+In this file you'll find the functionalities of this application.
 
-### What is this repository for? ###
+1. [Login Page](#login)
+2. [Register Page](#register)
+3. [Homepage](#homepage)
+ * [logout](#logout)
+ * [Create an issue](#issueNew)
+ * [Edit an issue](#issueEdit)
+ * [Delete an issue](#issueDelete)
+ * [Search issues](#issueSearch)
+ * [More Details](#issueDescription)
+ * [Detailed issue](#issueDetails)
+4. [Issue Details Page](#issueDetailsPage)
+ * [Comments](#comments)
 
-* Mini project for FRM course - Reporting issues
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+<a name="login"></a>
+## 1. Login Page
 
-### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+<a name="register"></a>
+## 2. Registration Page
 
-### Contribution guidelines ###
+<a name="homepage"></a>
+## 3. Homepage
 
-* Writing tests
-* Code review
-* Other guidelines
+<a name="logout"></a>
+### 3.1 Logout
 
-### Who do I talk to? ###
+<a name="issueNew"></a>
+### 3.2 Create an issue
 
-* Repo owner or admin
-=======
-# README #
+<a name="issueEdit"></a>
+### 3.3 Edit an issue
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
-### Project Planning ###
-* Until the 31th of july - planning and mockups / database and possible user types
-* Until the 1st of august - database and login/logout
-* Until the 4th of august - home page layout / html /structure of the homepage
-* Until the 5th of august - reporting/create an issue
-* Until the 8th of august - assign an issue to an user or more
-* Until the 8th of august - delete and edit an issue
-* Until the 8th of august - assign send email to the assign user
-* Until the 10th of august - users can be able to comment on issues
-* Until the 10th of august - change issue status (define who can do it)
-* Until the 11th of august - search an issue from existing ones by word
-* Until the 12th of august - design features
-* Until the 13th of august - Chat (optional)
-* Until the 15th of august - Specifications and last details
+<a name="issueDelete"></a>
+### 3.4 Delete an issue
 
-### Main Features ###
-* Login/logout - account management 
-* Create an issue (title, description, priority, attachments if possible)
-* Delete an issue
-* Edit an issue
-* Assign issue to other user(s)
-* Comment an issue
-* Change issue status
-* Chat (optional)
-* Search issue by key word 
 
-### What is this repository for? ###
+<a name="issueSearch"></a>
+### 3.5 Search issues
 
-* Mini project for FRM course - Reporting issues
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
+<a name="issueDescription"></a>
+### 3.6 More Details
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+<a name="issueDetails"></a>
+### 3.7 Detailed issue
 
-* Writing tests
-* Code review
-* Other guidelines
+<a name="issueDetailsPage"></a>
+## 4. Issues Details Page
 
-### Who do I talk to? ###
+<a name="comments"></a>
+### 4.1 Comments
 
-* Repo owner or admin
->>>>>>> branch 'master' of https://martapcosta@bitbucket.org/martapcosta/jee_project.git
-* Other community or team contact
