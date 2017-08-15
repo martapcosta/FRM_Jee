@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event type="preRenderView"
+		listener="#{issuesController.loadIssues()}" />
+</f:metadata>
+<h:head>
+	<title>Home Page</title>
+</h:head>
+<h:body>
+	<h1>Reporting Issues Application</h1>
+
+	<h:form>
+		<p:growl id="messages" />
+
+
+	</h:form>
+
+
+	<h2>
+		<h:outputText value="Welcome #{login.username} !!!" />
+	</h2>
+
+
+	<h:form>
+		<p:commandButton value="Create issue"
+			onclick="PF('NewIssueDialog').show()" id="add"
+			styleClass="ui-priority-primary" />
+		<h:commandLink action="#{login.logout}" value="Logout"></h:commandLink>
+		<p:separator />
+
+	</h:form>
+
+
+	<p:dialog header="Creating a new issue..." widgetVar="NewIssueDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="true"
+		width="800" height="500">
+		<p:scrollPanel id="NewIssue" style="text-align:left;height">
+			<p:panelGrid columns="2" columnClasses="label,value">
+				<f:facet name="header">
+					<p>New Demand</p>
+				</f:facet>
+				<h:form>
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="true" />
+					<div>
+						<p:outputLabel for="title_new" value="Subjet: " />
+						<p:inputText id="title_new" value="#{issue.title}" required="true"></p:inputText>
+						<p:message for="title_new" />
+					</div>
+					<p:separator />
+					<div>
+						<p:outputLabel for="type_new" value=" Type of demand: " />
+					</div>
+					<div>
+						<p:selectOneMenu id="type_new" value="#{issue.type}" effect="fold"
+							style="width:125px" required="true" requiredMessage="Choose one of the TYPE options">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}" />
+							<f:selectItems value="#{dtDialogView.types}" />
+						</p:selectOneMenu>
+						<p:message for="type_new" />
+					</div>
+
+					<p:separator />
+					<div>
+					<div>
+						<div>
+							<p:outputLabel for="description_new" value="Description: " />
+						</div>
+						<div>
+							<p:inputTextarea id="description_new"
+								value="#{issue.description}" rows="10" cols="100"
+								counter="display_new" maxlength="1000" required="true"
+								counterTemplate="{0} characters remaining." autoResize="false">
+							</p:inputTextarea>
+						</div>
+						<p:message for="description_new" />
+						</div>
+						
+						<div>
+							<h:outputText id="display_new" />
+						</div>
+					</div>
+					<p:separator />
+					<div>
+						<div>
+							<h:outputLabel for="new_assignto" value="Assign to:" />
+						</div>
+						<div>
+							<p:selectOneMenu id="new_assignto" value="#{issue.assign_to.id}"
+								effect="fold" style="width:125px" required="true" requiredMessage="Choose one of the ASSIGN TO options">
+								<f:selectItem itemLabel="Select One" itemValue="#{null}" />
+								<f:selectItems value="#{dtDialogView.users}" var="user"
+									itemValue="#{user.id}" itemLabel="#{user.username}" />
+							</p:selectOneMenu>
+							<p:message for="new_assignto" />
+						</div>
+					</div>
+					<p:separator />
+					<div>
+						<div>
+							<p:outputLabel for="state_new" value="State: " />
+						</div>
+						<div>
+							<p:selectOneMenu id="state_new" value="#{issue.state}"
+								effect="fold" style="width:125px" required="true" requiredMessage="Choose one of the STATE options">
+								<f:selectItem itemLabel="Select One" itemValue="#{null}" />
+								<f:selectItems value="#{dtDialogView.states}" />
+							</p:selectOneMenu>
+							<p:message for="state_new" />
+						</div>
+					</div>
+					<p:separator />
+					<div>
+						<div>
+							<p:outputLabel for="priority_new" value=" Priority: " />
+						</div>
+						<div>
+							<p:selectOneMenu id="priority_new" value="#{issue.priority}"
+								effect="fold" style="width:125px" required="true" requiredMessage="Choose one of the PRIORITY options">
+								<f:selectItem itemLabel="Select One" itemValue="#{null}" />
+								<f:selectItems value="#{dtDialogView.priorities}" />
+							</p:selectOneMenu>
+							<p:message for="priority_new" />
+						</div>
+					</div>
+					<p:separator />
+					<div style="text-align: right;">
+						<p:commandButton value="Save" id="save"
+							styleClass="ui-priority-primary"
+							action="#{dtBasicView.addIssue(issue)}" />
+						<p:link outcome="homepage" value="Close">
+						</p:link>
+					</div>
+				</h:form>
+			</p:panelGrid>
+		</p:scrollPanel>
+	</p:dialog>
+
+
+	<h:form id="form">
+		<p:dataTable id="issues" reflow="true"
+			var="tempIssue" value="#{issuesController.issues}"
+			rowKey="#{tempIssue.id}" selection="#{dtBasicView.selectedIssue}"
+			selectionMode="single" widgetVar="issuesTable"
+			emptyMessage="No issues found with given criteria"
+			filteredValue="#{issuesController.filteredIssues}">
+
+			<p:ajax event="rowSelect" listener="#{dtBasicView.onRowSelect}" />
+
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Search all fields:" />
+					<p:inputText id="globalFilter" onkeyup="PF('issuesTable').filter()"
+						style="width:150px" placeholder="Enter keyword" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column style="width: 20px;">
+				<p:rowToggler />
+			</p:column>
+			<p:column style="width: 500px;" headerText="Resume"
+				sortBy="#{tempIssue.title}" filterMatchMode="contains"
+				filterBy="#{tempIssue.title}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.title}" />
+			</p:column>
+			<p:column headerText="Type" sortBy="#{tempIssue.type}"
+				filterMatchMode="contains" filterBy="#{tempIssue.type}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.type}" />
+			</p:column>
+			<p:column headerText="Priority" sortBy="#{tempIssue.priority}"
+				filterMatchMode="contains" filterBy="#{tempIssue.priority}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.priority}" />
+			</p:column>
+			<p:column headerText="Created by"
+				sortBy="#{tempIssue.user_create.username}"
+				filterMatchMode="contains"
+				filterBy="#{tempIssue.user_create.username}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.user_create.username}" />
+			</p:column>
+			<p:column headerText="Assign to"
+				sortBy="#{tempIssue.assign_to.username}" filterMatchMode="contains"
+				filterBy="#{tempIssue.assign_to.username}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.assign_to.username}" />
+			</p:column>
+			<p:column style="min-width: 95px;" headerText="Created"
+				sortBy="#{tempIssue.creation_date}" filterMatchMode="contains"
+				filterBy="#{tempIssue.creation_date}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.creation_date}" />
+			</p:column>
+			<p:column style="min-width: 95px;" headerText="Updated"
+				sortBy="#{tempIssue.last_modification_date}"
+				filterMatchMode="contains"
+				filterBy="#{tempIssue.last_modification_date}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.last_modification_date}" />
+			</p:column>
+			<p:column headerText="Status" sortBy="#{tempIssue.state}"
+				filterMatchMode="contains" filterBy="#{tempIssue.state}"
+				filterStyle="display:none; visibility:hidden;">
+				<h:outputText value="#{tempIssue.state}" />
+			</p:column>
+			<p:rowExpansion>
+				<p:panelGrid columns="1" columnClasses="label,value">
+
+					<h:outputText value="More details" style="font-weight:bold" />
+					<h:outputText value="#{tempIssue.description}" />
+				</p:panelGrid>
+
+			</p:rowExpansion>
+		</p:dataTable>
+
+		<p:contextMenu for="issues">
+			<p:menuitem value="Edit" update="issueDetail" icon="ui-icon-search"
+				oncomplete="PF('issueDialog').show()" />
+			<p:menuitem value="Delete" update="issues" icon="ui-icon-close"
+				actionListener="#{dtBasicView.deleteIssue()}" />
+
+		</p:contextMenu>
+
+	</h:form>
+
+	<p:dialog header="Change issue details" widgetVar="issueDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="true"
+		width="800" height="500">
+		<p:scrollPanel id="issueDetail" style="text-align:left;height">
+			<p:panelGrid columns="2"
+				rendered="#{not empty dtBasicView.selectedIssue}"
+				columnClasses="label,value">
+				<f:facet name="header">
+					<p>Issue ID: #{dtBasicView.selectedIssue.id}</p>
+				</f:facet>
+				<h:form>
+					<div>
+						<h:outputText value="Subjet: " />
+						<p:inputText id="title" value="#{dtBasicView.selectedIssue.title}"></p:inputText>
+					</div>
+
+					<p:separator />
+
+					<div>
+						<p:outputLabel for="type" value=" Type of demand: " />
+					</div>
+					<div>
+						<p:selectOneMenu id="type"
+							value="#{dtBasicView.selectedIssue.type}" effect="fold"
+							style="width:125px">
+							<f:selectItem itemLabel="Select One" />
+							<f:selectItems value="#{dtDialogView.types}" />
+						</p:selectOneMenu>
+					</div>
+
+					<p:separator />
+
+					<div>
+						<div>
+							<h:outputText value="Description: " />
+						</div>
+						<div>
+							<p:inputTextarea rows="10" cols="100" counter="display"
+								maxlength="1000" counterTemplate="{0} characters remaining."
+								autoResize="false"
+								value="#{dtBasicView.selectedIssue.description}"></p:inputTextarea>
+						</div>
+						<div>
+							<h:outputText id="display" />
+						</div>
+					</div>
+					<p:separator />
+					<div>
+						<h:outputText value="Creation Date:" />
+						<h:outputText value="#{dtBasicView.selectedIssue.creation_date}" />
+					</div>
+					<h:outputText value="Last modification:" />
+					<h:outputText
+						value="#{dtBasicView.selectedIssue.last_modification_date}" />
+					<div>
+						<h:outputText value="Created by:" />
+						<strong><h:outputText
+								value="#{dtBasicView.selectedIssue.user_create.username}" /></strong>
+					</div>
+					<p:separator />
+					<div>
+						<div>
+							<h:outputText value="Assign to:" />
+						</div>
+						<div>
+							<p:selectOneMenu id="assignto"
+								value="#{dtBasicView.selectedIssue.assign_to.id}" effect="fold"
+								style="width:125px">
+								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItems value="#{dtDialogView.users}" var="user"
+									itemValue="#{user.id}" itemLabel="#{user.username}" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<p:separator />
+					<div>
+						<p:outputLabel for="state" value=" State: " />
+					</div>
+					<div>
+						<p:selectOneMenu id="state"
+							value="#{dtBasicView.selectedIssue.state}" effect="fold"
+							style="width:125px">
+							<f:selectItem itemLabel="#{dtBasicView.selectedIssue.state}"
+								itemValue="#{dtBasicView.selectedIssue.state}" />
+							<f:selectItems value="#{dtDialogView.states}" />
+						</p:selectOneMenu>
+					</div>
+					<p:separator />
+					<div>
+						<p:outputLabel for="priority" value=" Priority: " />
+					</div>
+					<div>
+						<p:selectOneMenu id="priority"
+							value="#{dtBasicView.selectedIssue.priority}" effect="fold"
+							style="width:125px">
+							<f:selectItem itemLabel="#{dtBasicView.selectedIssue.priority}"
+								itemValue="#{dtBasicView.selectedIssue.priority}" />
+							<f:selectItems value="#{dtDialogView.priorities}" />
+						</p:selectOneMenu>
+					</div>
+					<p:separator />
+					<div style="text-align: right;">
+						<p:commandButton value="Save" id="update"
+							styleClass="ui-priority-primary"
+							action="#{dtBasicView.updateIssue()}" />
+						<p:link outcome="homepage" value="Close">
+						</p:link>
+					</div>
+
+				</h:form>
+
+			</p:panelGrid>
+		</p:scrollPanel>
+	</p:dialog>
+
+
+</h:body>
+</html>

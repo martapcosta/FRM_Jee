@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:wb="http://whitebyte.info/components"
+	xmlns:c="http://java.sun.com/jsf/composite/composites">
+
+<f:metadata>
+	<f:viewParam name="id" value="#{issueController.id}" />
+	<f:viewAction action="#{issueController.loadIssue}" />
+</f:metadata>
+<h:head>
+	<style>
+html { .details li { list-style:none;
+	
+}
+
+li {
+	margin-bottom: 10px;
+}
+}
+</style>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous" />
+
+	<!-- Optional theme -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		crossorigin="anonymous" />
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+
+</h:head>
+<h:body>
+	<div class="container">
+		<p:link outcome="homepage" value="Back to Homepage" />
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+					<div class="container" style="border-bottom: 1px solid black">
+						<h2>
+							<h:outputText value="Issue# #{issueController.issue.id}" />
+						</h2>
+					</div>
+					<ul class="container details">
+						<li><p>
+								<span class="glyphicon glyphicon glyphicon-ok"
+									style="width: 50px;"></span><span style="font-weight: bold">Title:
+								</span>
+								<h:outputText value="#{issueController.issue.title}" />
+							</p></li>
+						<li><p>
+								<span class="glyphicon glyphicon glyphicon-ok"
+									style="width: 50px;"></span><span style="font-weight: bold">Description</span>
+								<p>
+									<h:outputText value="#{issueController.issue.description}" />
+								</p>
+							</p></li>
+						<li><p>
+								<span class="glyphicon glyphicon glyphicon-ok"
+									style="width: 50px;"></span><span style="font-weight: bold">Status:
+								</span>
+								<h:outputText value="#{issueController.issue.state}" />
+							</p></li>
+						<li><p>
+								<span class="glyphicon glyphicon glyphicon-ok"
+									style="width: 50px;"></span><span style="font-weight: bold">Priority:
+								</span>
+								<h:outputText value="#{issueController.issue.priority}" />
+							</p></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row jumbotron">
+			<div class="panel panel-default widget">
+				<h:form>
+
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-comment"></span> <span
+							class="panel-title">Comments</span>
+					</div>
+					<h:outputText value="No comments yet!"
+						rendered="#{empty issueController.comments}" />
+					<ui:repeat value="#{issueController.comments}" var="item">
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-10 col-md-11">
+									<div>
+										<div class="mic-info">
+											By:
+											<h:outputText style="font-weight:bold"
+												value="#{item.commentby.username}" />
+											on the
+											<h:outputText style="font-weight:bold"
+												value="#{item.creation_date}" />
+										</div>
+									</div>
+									<br></br>
+									<div class="comment-text">
+										<h:outputText value="#{item.comment_text}" />
+									</div>
+									<div class="action">
+										<p:commandButton value="Delete" class="btn btn-danger btn-xs"
+											actionListener="#{issueController.deleteComment(item)}"
+											update="@form" />
+									</div>
+								</div>
+							</div>
+						</li>
+					</ui:repeat>
+					<div>
+						<p:inputText type="hidden" value="#{issueController.id}" />
+						<div class="col-xs-10 col-md-11">
+							<div style="text-align: center">
+								<p:inputTextarea rows="5" cols="125"
+									placeholder="Enter your comment"
+									value="#{issueController.commentTextArea}" id="commentTextArea" />
+							</div>
+							<div>
+								<p:commandButton value="Add Comment" class="btn btn-info btn-xs"
+									actionListener="#{issueController.addComment()}" update="@form" />
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

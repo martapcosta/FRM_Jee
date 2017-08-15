@@ -1,0 +1,70 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema issues_tracking_database
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema issues_tracking_database
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `issues_tracking_database` DEFAULT CHARACTER SET utf8 ;
+USE `issues_tracking_database` ;
+
+-- -----------------------------------------------------
+-- Table `issues_tracking_database`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`users` (
+  `idusers` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_type` VARCHAR(100) NULL DEFAULT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idusers`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `issues_tracking_database`.`issues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`issues` (
+  `idissues` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(1800) NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `priority` VARCHAR(45) NOT NULL,
+  `assignto` INT(11) NOT NULL,
+  `state` VARCHAR(45) NOT NULL,
+  `iduser` INT(11) NOT NULL,
+  `creation_date` DATETIME NULL DEFAULT NULL,
+  `modification_date` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`idissues`),
+  INDEX `iduser_idx` (`iduser` ASC),
+  INDEX `assignto_idx` (`assignto` ASC),
+  CONSTRAINT `assignto`
+    FOREIGN KEY (`assignto`)
+    REFERENCES `issues_tracking_database`.`users` (`idusers`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `iduser`
+    FOREIGN KEY (`iduser`)
+    REFERENCES `issues_tracking_database`.`users` (`idusers`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
