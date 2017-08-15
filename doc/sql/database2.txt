@@ -10,6 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema issues_tracking_database
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `issues_tracking_database` ;
 
 -- -----------------------------------------------------
 -- Schema issues_tracking_database
@@ -26,11 +27,12 @@ CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`users` (
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   `email` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`idusers`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+  PRIMARY KEY (`idusers`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8;
+
+CREATE UNIQUE INDEX `username_UNIQUE` ON `issues_tracking_database`.`users` (`username` ASC);
 
 
 -- -----------------------------------------------------
@@ -44,12 +46,10 @@ CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`issues` (
   `priority` VARCHAR(45) NOT NULL,
   `assignto` INT(11) NOT NULL,
   `state` VARCHAR(45) NOT NULL,
-  `iduser` INT(11) NOT NULL,
-  `creation_date` DATETIME NULL DEFAULT NULL,
-  `modification_date` DATETIME NULL DEFAULT NULL,
+  `iduser` INT(11) NULL DEFAULT NULL,
+  `creation_date` DATE NOT NULL,
+  `modification_date` DATE NOT NULL,
   PRIMARY KEY (`idissues`),
-  INDEX `iduser_idx` (`iduser` ASC),
-  INDEX `assignto_idx` (`assignto` ASC),
   CONSTRAINT `assignto`
     FOREIGN KEY (`assignto`)
     REFERENCES `issues_tracking_database`.`users` (`idusers`)
@@ -61,8 +61,41 @@ CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`issues` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 50
 DEFAULT CHARACTER SET = utf8;
+
+CREATE INDEX `iduser_idx` ON `issues_tracking_database`.`issues` (`iduser` ASC);
+
+CREATE INDEX `assignto_idx` ON `issues_tracking_database`.`issues` (`assignto` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `issues_tracking_database`.`comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `issues_tracking_database`.`comments` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `idissues` INT(11) NOT NULL,
+  `author` INT(11) NOT NULL,
+  `cdate` DATE NOT NULL,
+  `content` VARCHAR(300) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `author`
+    FOREIGN KEY (`author`)
+    REFERENCES `issues_tracking_database`.`users` (`idusers`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idissues`
+    FOREIGN KEY (`idissues`)
+    REFERENCES `issues_tracking_database`.`issues` (`idissues`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 34
+DEFAULT CHARACTER SET = utf8;
+
+CREATE INDEX `idissues_idx` ON `issues_tracking_database`.`comments` (`idissues` ASC);
+
+CREATE INDEX `author_idx` ON `issues_tracking_database`.`comments` (`author` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
