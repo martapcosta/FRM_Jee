@@ -4,11 +4,18 @@ A Web application allowing to report issues
 
 <a name="top"></a>
 
-This repository contains the source code for the Reporting Issues Application for the project of FRM course (MAS-RAD). 
-Reporting Issues is an application inviting users to report issues, assign them to other users with specific data so that 
-they can be solved.
+This repository contains the source code for a simple reporting issues web application for a small project of FRM course (MAS-RAD course).
 
-In this file you'll find the functionalities of this application.
+Author: Marta Costa
+Version: 1.0
+
+#### Requirements ####
+- A Java application server (using Tomcat v8.5 Server)
+- DataBase : MySQL Server v6.3
+- Build Tool : Apache-Maven v3.5.0
+- Use JSF primefaces
+
+#### Features ####
 
 1. [Login Page](#login)
 2. [Register Page](#register)
@@ -26,11 +33,9 @@ In this file you'll find the functionalities of this application.
 <a name="login"></a>
 ## 1. Login Page
 
-When the application is first starts, the user is redirected to the Login Page.
+When the application first starts, the user is redirected to the Login Page.
 In the login page the user is asked to enter his username and password to be identified in the application. 
 If the provided information is not correct, the user will be informed with a message, otherwise the user will be connected to the application and redirected to the home page of the application.
-
-
 
 ![login](doc/img/login.png)
 
