@@ -1,5 +1,6 @@
 # Reporting Issues Project 
-FRM Mini-project - MAS-RAD
+Mini-project - FRM MAS-RAD
+
 A Web application allowing to report issues
 
 <a name="top"></a>
